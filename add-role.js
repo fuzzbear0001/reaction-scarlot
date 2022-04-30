@@ -11,7 +11,7 @@ module.exports = {
     options: [
         {
             name: "role",
-            description: "role to be assigned",
+            description: "First role to be assigned",
             type: "ROLE",
             required: "true",
         },
@@ -26,7 +26,19 @@ module.exports = {
             description: "emoji for the role",
             type: "STRING",
             required: false
-        }
+        },
+	{
+	    name: "role2",
+	    description: "The oppisite role of the first role!",
+            type: "ROLE",
+            required: "false",
+	},
+	{
+            name: "emoji2",
+            description: "Emoji for the oppisite role!",
+            type: "STRING",
+            required: false
+        },
     ],
 
     /**
@@ -40,6 +52,9 @@ module.exports = {
         const role = interaction.options.getRole("role")
         const roleDescription = interaction.options.getString("description") 
         const roleEmoji = interaction.options.getString("emoji") || null;
+	const roleEmoji2 = interaction.options.getString("emoji2") || null;
+	const role2 = interaction.options.getString("role2") || null;
+		
         const rolehighEmbed = new MessageEmbed()
         .setTitle("Role cant be added")
         .setDescription("The role provided is higher or equel to me so i cannot add it")
@@ -55,10 +70,13 @@ module.exports = {
             roleId: role.id,
             roleDescription,
             roleEmoji,
+	    role2Id: role2.id,
+	    roleEmoji2
         }
 
         if(guildData) {
             let  roleData = guildData.roles.find((x) => x.roleId === role.id )
+	    let  roleData2 = guildData.roles.find((x) => x.role2Id === role.id )
 
             if(roleData) {
                 roleData = newRole;
